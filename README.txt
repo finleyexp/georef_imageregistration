@@ -9,7 +9,13 @@ To install Earth Engine, follow these steps:
 1 - Apply for a beta signup: https://docs.google.com/forms/d/17-LSoJQcBUGIwfplrBFLv0ULYhOahHJs2MwRF2XkrcM/viewform
   - Your application should be accepted quickly.
 2 - Follow the steps for Python installation of Earth Engine: https://developers.google.com/earth-engine/python_install
+  - If using Conda: conda install -c conda-forge earthengine-api
+  - On older machines like the geocam servers probably need to compile your own python
+    and make a new VirtualEnv environment from scratch following the Google instructions above.
+    - Make sure to compile with sqlite3 support: http://binfcentral.blogspot.com/2012/06/compiling-python-with-sqlite3-support.html
+  - Also need django, numpy, pillow, mysqlclient, and piexif
 3 - Make sure the path in imageregistration/ImageFetcher/ee_authenticate.py is pointed to the credentials file created in step 2.
+
 
 Step B is performed using a C++ program relying on OpenCV 3.0
 To install, follow these steps:
@@ -18,9 +24,8 @@ To install, follow these steps:
   - Use the below cmake (assumes opencv_contrib is in /usr/local/lib/opencv_contrib)
 	sudo cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D INSTALL_C_EXAMPLES=ON -D INSTALL_PYTHON_EXAMPLES=ON -D OPENCV_EXTRA_MODULES_PATH=/usr/local/lib/opencv_contrib/modules -D BUILD_EXAMPLES=ON ..
 	And make sure to do "make install" as well as "make"!!!
-		  
-  - Building OpenCV may not go smoothly, so we will have to update this file with more specific instructions
-    as we go.
+
+  - Building OpenCV may not go smoothly, so we will have to update this file with more specific instructions as we go.
   - Sample install instructions here may be useful: http://www.pyimagesearch.com/2015/06/22/install-opencv-3-0-and-python-2-7-on-ubuntu/
   
 2 - Build the ImageRegistration C++ code.
@@ -59,8 +64,6 @@ DB change requests:
         - Add a "writtenToFile" field.
         - By mirroring our existing registration table fields we can make searches easier using joins.
 
-- TODO: Images which are in our DB but not in the input DB file are not supported.
-
 - Add UNIQUE flag if not already done.
 
 - Disable GUI writing of gtiff files.  ---> Go ahead and start running the tools, ignoring this step!
@@ -69,9 +72,7 @@ DB change requests:
     - How should they be running?
 - Verify that offline tools are running.
 - Test out the GUI, make sure everything works properly.
-- More testing
 
-- Double check why our RMS fit error is so high.
 - Switch from prints to logging
 
 
@@ -108,22 +109,10 @@ Examples for demo:
     - Each tool can access just the info it needs.
 
 
-- Switch from SQLite to MYSQL
-    - Waiting on new DB to stabilize
-
-- Port functionality from command line tool to seperate command line async processes.
-
-- Expand/improve DB wrapper classes so all tools and GUI can use the wrapper.
-    - Started new MySQL wrapper
-
-
-
-
 - File describing the input data system?
 
 - Handle overwrite options better, including re-fetch
 
-- Tune the uncertainty constants
 
 - IP registration improvements:    
     - Small amounts of clouds cause all the match image IP to fall on them!
